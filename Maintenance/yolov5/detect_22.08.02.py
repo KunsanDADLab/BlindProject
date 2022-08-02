@@ -172,35 +172,30 @@ def run(
                         save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
                 
                 #juhyun editing
-                danger = "human"
+                danger = "person"
                 for *xyxy, conf, cls in reversed(det):
                     c = int(cls)
                     labels = names[c]
-                    if label in labels:
+                    for label in labels:
                         #객체의 좌표를 구함 / coordinate : 좌표
                         coordinate = xyxy
-                        coordinate = coordinate[0], 480 - coordinate[1], coordinate[2], 480 - coordinate[3] #PhotShop기준의 좌표평편 좌표로 변환 #Test필요!!
-                        if coordinate[3] > 963:
+                        coordinate = coordinate[0], 480 - coordinate[1], coordinate[2], 480 - coordinate[3]
+                        print(coordinate)
+                        if coordinate[3] < 963: #963픽셀을 기준으로 아래에 있는 객체들을 탐지
                             if (coordinate[0] + coordinate[2]) / 2 < 320: #X좌표를 기준으로 왼쪽 함수 f(x)에 대입을 할건지 오른쪽 함수 g(x)에 대입을 할건지 구분
-                                #Test
-                                print("왼쪽입니다!")
-                                
-                                # if coordinate[3] < (lambda x : 3 * x + 5)(coordinate[2]): #lambda : f(x) / 진로방해 O #f(x)함수 다시 구하기!!
-                                #     if label in danger: #나중에 if문 최상단으로 빼서 처리 가능!!
-                                #         print("Warning!! : ", label, coordinate)
-                                # else: #진로방해 X
-                                #     if label in danger:
-                                #         print("Caution : ", label, coordinate)
+                                if coordinate[3] < (lambda x : 3 * x + 5)(coordinate[2]): #lambda : f(x) / 진로방해 O #f(x)함수 다시 구하기!!
+                                    #if label in danger: #나중에 if문 최상단으로 빼서 처리 가능!!
+                                        print("Left Warning!! : ", label, coordinate)
+                                else: #진로방해 X
+                                    #if label in danger:
+                                        print("Left Caution : ", label, coordinate)
                             else:
-                                #Test
-                                print("오른쪽입니다!")
-
-                                # if coordinate[3] < (lambda x : -4 * x - 7)(coordinate[2]): #lambda : g(x) / 진로방해 O #g(x)함수 다시 구하기!!
-                                #     if label in danger:
-                                #         print(label, coordinate)
-                                # else:
-                                #     if label in danger:
-                                #         print(label, coordinate)
+                                if coordinate[3] < (lambda x : -4 * x - 7)(coordinate[2]): #lambda : g(x) / 진로방해 O #g(x)함수 다시 구하기!!
+                                    #if label in danger:
+                                        print("Right Warining : ",label, coordinate)
+                                else:
+                                    #if label in danger:
+                                        print("Right Caution : ",label, coordinate)
                         
 
             # Stream results
