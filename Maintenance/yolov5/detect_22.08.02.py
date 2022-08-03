@@ -180,20 +180,19 @@ def run(
                         #객체의 좌표를 구함 / coordinate : 좌표
                         coordinate = xyxy
                         coordinate = coordinate[0], 480 - coordinate[1], coordinate[2], 480 - coordinate[3]
-                        print(coordinate)
                         if coordinate[3] < 963: #963픽셀을 기준으로 아래에 있는 객체들을 탐지
                             if (coordinate[0] + coordinate[2]) / 2 < 320: #X좌표를 기준으로 왼쪽 함수 f(x)에 대입을 할건지 오른쪽 함수 g(x)에 대입을 할건지 구분
-                                if coordinate[3] < (lambda x : 3 * x + 5)(coordinate[2]): #lambda : f(x) / 진로방해 O #f(x)함수 다시 구하기!!
+                                if coordinate[3] < (lambda x : ( - 49 / 24 ) * x + ( 9265 / 6 ))(coordinate[2]): #lambda : f(x) / 진로방해 O
                                     #if label in danger: #나중에 if문 최상단으로 빼서 처리 가능!!
                                         print("Left Warning!! : ", label, coordinate)
                                 else: #진로방해 X
                                     #if label in danger:
                                         print("Left Caution : ", label, coordinate)
                             else:
-                                if coordinate[3] < (lambda x : -4 * x - 7)(coordinate[2]): #lambda : g(x) / 진로방해 O #g(x)함수 다시 구하기!!
+                                if coordinate[3] < (lambda x : ( 17 / 10 ) * x - ( 1541 / 2 ))(coordinate[2]): #lambda : g(x) / 진로방해 O
                                     #if label in danger:
                                         print("Right Warining : ",label, coordinate)
-                                else:
+                                else: #진로방해 X
                                     #if label in danger:
                                         print("Right Caution : ",label, coordinate)
                         
